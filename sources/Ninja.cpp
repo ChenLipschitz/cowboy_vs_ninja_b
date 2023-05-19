@@ -18,14 +18,35 @@ void Ninja::setSpeed(int speed_){
 
 //--- class methods ---//
 void Ninja::move(Character* enemy) {
+    if(!isAlive()){
+        throw std::runtime_error("Error- Cannot move if the ninja is dead");
+    }
+    this->getLocation().setX(this->getLocation().getX()+this->speed);
+    this->getLocation().setY(this->getLocation().getY()+this->speed);
 }
 void Ninja::slash(Character* enemy) {
-        if (!isAlive()){
-        throw std::runtime_error("Error- the ninja is not alive");
+    if (!isAlive()){
+        throw std::runtime_error("Error- The ninja is not alive");
     }
+    if (!enemy->isAlive()){
+        throw std::runtime_error("Error- The enemy is already dead");
+    }
+    if (this->distance(*enemy) < 1) {
+        enemy->hit(40);
+    }
+
 }
 string Ninja::print() const{
-    return "";
+    string str = "N Name: ";
+    if (isAlive()){
+       str += this->getName() + "\nHit Points: " + to_string(this->getHit());
+    }
+    else{
+        str += "(" + this->getName() + ")";
+    }
+    cout<<str<<endl;
+    this->getLocation().print();
+    return str;
 }
 
 
