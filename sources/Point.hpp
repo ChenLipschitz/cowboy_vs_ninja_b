@@ -15,7 +15,7 @@ namespace ariel{
         void setY(double y_);
         void print();
         double distance(const Point &other);
-        Point static moveTowards(Point &source, Point &destination, double dist);
+        Point static moveTowards(Point source, Point destination, double dist);
 
         private:
         double x;

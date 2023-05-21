@@ -8,33 +8,50 @@ using namespace ariel;
 //-------------------------- Ninja --------------------------//
 Ninja::Ninja(string name, Point location) : Character(name, location, 100) {}
 
+
 //--- getters & setters ---//
 int Ninja::getSpeed() const{
     return this->speed;
 }
+
 void Ninja::setSpeed(int speed_){
     this->speed = speed_;
 }
 
+
 //--- class methods ---//
 void Ninja::move(Character* enemy) {
-    if(!isAlive()){
+    if (enemy == NULL){
+        throw invalid_argument("Error- the passed argument is NULL");
+    }
+    if (!isAlive()){
         throw std::runtime_error("Error- Cannot move if the ninja is dead");
+    }
+    if (enemy == this){
+        return; //don't move because u can't move towards yourself
     }
     this->getLocation().moveTowards(this->getLocation(), enemy->getLocation(), this->speed);
 }
+
 void Ninja::slash(Character* enemy) {
+    if (enemy == NULL){
+        throw invalid_argument("Error- the passed argument is NULL");
+    }
     if (!isAlive()){
         throw std::runtime_error("Error- The ninja is not alive");
     }
     if (!enemy->isAlive()){
         throw std::runtime_error("Error- The enemy is already dead");
     }
+    if (enemy == this){
+        throw invalid_argument("Ninja cannot slash himself- it will be a suicide");
+    }
     if (this->distance(*enemy) < 1) {
         enemy->hit(40);
     }
 
 }
+
 string Ninja::print() const{
     string str = "N Name: ";
     if (isAlive()){

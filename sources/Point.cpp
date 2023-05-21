@@ -44,7 +44,7 @@ double Point::distance(const Point &other){
     return dist;
 }
 
-Point Point::moveTowards(Point &source, Point &destination, double dist){
+Point Point::moveTowards(Point source, Point destination, double dist){
     if (dist<0){
         throw std::invalid_argument("ERROR- Cannot move in a negative distance");
     }
