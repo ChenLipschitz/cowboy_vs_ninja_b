@@ -39,14 +39,25 @@ void Point::print(){
 double Point::distance(const Point &other){
     double dist = sqrt(pow((other.getX() - this->x), 2) + pow((other.getY() - this->y), 2));
     if (dist < 0){
-        throw std::invalid_argument("ERROR- distance cannot be negative");
+        throw std::runtime_error("ERROR- Distance cannot be negative");
     }
     return dist;
 }
 
-Point Point::moveTowards(Point source, Point destination, double dist){
+Point Point::moveTowards(Point &source, Point &destination, double dist){
     if (dist<0){
-        throw std::invalid_argument("ERROR- distance cannot be negative");
+        throw std::invalid_argument("ERROR- Cannot move in a negative distance");
     }
-    return *this;
+
+    double distance_ = source.distance(destination);
+    if (distance_ <= dist){
+        return destination;
+    }
+    
+    // was taken from ChatGPT
+    double ratio = dist / distance_;
+    double newX = source.getX() + ratio * (destination.getX() - source.getX());
+    double newY = source.getY() + ratio * (destination.getY() - source.getY());
+
+    return Point{newX, newY};
 }

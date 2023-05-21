@@ -21,8 +21,7 @@ void Ninja::move(Character* enemy) {
     if(!isAlive()){
         throw std::runtime_error("Error- Cannot move if the ninja is dead");
     }
-    this->getLocation().setX(this->getLocation().getX()+this->speed);
-    this->getLocation().setY(this->getLocation().getY()+this->speed);
+    this->getLocation().moveTowards(this->getLocation(), enemy->getLocation(), this->speed);
 }
 void Ninja::slash(Character* enemy) {
     if (!isAlive()){
