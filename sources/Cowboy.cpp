@@ -21,7 +21,10 @@ void Cowboy::shoot(Character* enemy) {
     if (!enemy->isAlive()){
         throw std::runtime_error("The enemy is already dead");
     }
-    if (isAlive() && num_of_bullets>0){
+    if (!isAlive()){
+        throw std::runtime_error("Error- cannot shoot because the cowboy is dead");
+    }
+    if (num_of_bullets>0){
         enemy->hit(10);
         num_of_bullets--;
     }
@@ -30,6 +33,9 @@ bool Cowboy::hasboolets() const{
     return this->num_of_bullets > 0;
 }
 void Cowboy::reload() {
+    if (!isAlive()){
+        throw std::runtime_error("Error- the cowboy is dead therefore cannot reload");
+    }
     this->num_of_bullets+=6;
 }
 string Cowboy::print() const{

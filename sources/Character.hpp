@@ -22,12 +22,15 @@ namespace ariel {
         void setHit(int);
         bool isATeamMember() const;
         void setAsATeamMember();
+        bool isACaptian() const;
+        void setAsACaptian();
 
         private:
         string name;
         Point location;
         int hit_points;      
         bool aTeamMember;
+        bool aCapatian;
     };
 
     //-------------------------- Ninja --------------------------//

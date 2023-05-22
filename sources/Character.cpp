@@ -13,6 +13,7 @@ Character::Character(string name_, Point location_, int hit_points_){
     this->location = location_;
     this->hit_points = hit_points_;
     this->aTeamMember = false;
+    this->aCapatian = false;
 }
 
 
@@ -22,6 +23,9 @@ int Character::getHit() const{
 }
 
 void Character::setHit(int new_hit){
+    if (new_hit < 0){
+        throw std::invalid_argument("Error- Hit cannot be negative");
+    }
     this->hit_points = new_hit;
 }
 
@@ -41,6 +45,14 @@ void Character::setAsATeamMember(){
     this->aTeamMember = !isATeamMember();
 }
 
+bool Character::isACaptian() const{
+    return aCapatian;
+}
+
+void Character::setAsACaptian(){
+    this->aCapatian = !isACaptian();
+}
+
 
 //-------------------------- class methods --------------------------//
 
@@ -49,6 +61,9 @@ bool Character::isAlive() const{
 }
 
 void Character::hit(int num){
+    if (num < 0){
+        throw std::invalid_argument("Error- the given number cannot be negative");
+    }
     hit_points = hit_points - num;
 }
 

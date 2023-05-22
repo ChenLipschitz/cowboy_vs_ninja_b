@@ -14,7 +14,7 @@ using namespace std;
 
 //-------------------------- constructors & initializations --------------------------//
 Team::Team(Character* captain_){
-    this->captain = captain_;
+    setCapitain(captain_);
     add(captain);
 }
 
@@ -36,7 +36,14 @@ Character* Team::getCaptian() const{
 }
 
 void Team::setCapitain(Character* new_captain){
-    this->captain = new_captain;
+    if (new_captain == nullptr){
+        throw std::invalid_argument("Error- got a null pointer as a new captian");
+    }
+    if (new_captain->isACaptian() || !new_captain->isAlive()){
+        throw std::runtime_error("Error- choose another captian");
+    }
+    captain = new_captain;
+    captain->setAsACaptian();
 }
 
 const vector<Character*>& Team::getWarriors() const {
@@ -48,7 +55,10 @@ void Team::add(Character* warrior){
     if (warriors.size() == 10 ){
         throw std::runtime_error("Error- cannot add another warrior, the team reached maximum capacity");
     }
-    if (warrior != nullptr && warrior->isAlive() && !warrior->isATeamMember()){
+    if (warrior->isATeamMember()){
+        throw std::runtime_error("Error- this warrior is already a team member");
+    }
+    if (warrior != nullptr && warrior->isAlive()){
         warriors.push_back(warrior);
         warrior->setAsATeamMember();
     }
@@ -59,7 +69,7 @@ void Team::attack(Team* enemy){
         throw std::invalid_argument("Error- cannot attack bull team");
     }
     if (enemy->stillAlive() == 0){
-        return; //all the enemy warriors are dead
+        throw std::runtime_error("Error- all the enemy warriors are dead");
     }
     if (this->stillAlive() == 0){
         return; //cannot attack, the entire team died

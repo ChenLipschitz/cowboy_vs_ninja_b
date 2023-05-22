@@ -47,7 +47,7 @@ void Ninja::slash(Character* enemy) {
         throw std::runtime_error("Error- The enemy is already dead");
     }
     if (enemy == this){
-        throw invalid_argument("Ninja cannot slash himself- it will be a suicide");
+        throw std::runtime_error("Ninja cannot slash himself- it will be a suicide");
     }
     if (this->distance(enemy) <= 1) {
         enemy->hit(40);
