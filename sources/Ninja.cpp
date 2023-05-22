@@ -24,7 +24,7 @@ void Ninja::setSpeed(int speed_){
 
 //--- class methods ---//
 void Ninja::move(Character* enemy) {
-    if (enemy == NULL){
+    if (enemy == nullptr){
         throw invalid_argument("Error- the passed argument is NULL");
     }
     if (!isAlive()){
@@ -37,7 +37,7 @@ void Ninja::move(Character* enemy) {
 }
 
 void Ninja::slash(Character* enemy) {
-    if (enemy == NULL){
+    if (enemy == nullptr){
         throw invalid_argument("Error- the passed argument is NULL");
     }
     if (!isAlive()){
@@ -49,10 +49,9 @@ void Ninja::slash(Character* enemy) {
     if (enemy == this){
         throw invalid_argument("Ninja cannot slash himself- it will be a suicide");
     }
-    if (this->distance(*enemy) < 1) {
+    if (this->distance(enemy) <= 1) {
         enemy->hit(40);
     }
-
 }
 
 string Ninja::print() const{

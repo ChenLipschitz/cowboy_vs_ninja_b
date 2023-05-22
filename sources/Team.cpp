@@ -15,12 +15,12 @@ using namespace std;
 //-------------------------- constructors & initializations --------------------------//
 Team::Team(Character* captain_){
     this->captain = captain_;
-    warriors.push_back(captain);
+    add(captain);
 }
 
 Team::Team(const Team& other) : captain(other.captain), warriors(), size(0) {    // Copy constructor
     for (const auto& player : other.warriors) {
-        this->add(player);
+        add(player);
     }
 }
 
@@ -45,8 +45,12 @@ const vector<Character*>& Team::getWarriors() const {
 
 //-------------------------- class methods --------------------------//
 void Team::add(Character* warrior){
-    if (warrior != NULL && warrior->isAlive()){
+    if (warriors.size() == 10 ){
+        throw std::runtime_error("Error- cannot add another warrior, the team reached maximum capacity");
+    }
+    if (warrior != nullptr && warrior->isAlive() && !warrior->isATeamMember()){
         warriors.push_back(warrior);
+        warrior->setAsATeamMember();
     }
 }
 
@@ -71,18 +75,27 @@ void Team::attack(Team* enemy){
 
     Character* target = potantial_choice(enemy);
     for (Character* warrior: warriors){
-        if (target->isAlive()){
-            if (warrior->isAlive()){
-                Cowboy* cowboy = dynamic_cast<Cowboy*>(warrior);
-                if (cowboy != nullptr) {
-                    if (cowboy->hasboolets()){
-                        cowboy->shoot(target);
-                    }
-                    else{
-                        cowboy->reload();
-                    }
+        if (!target->isAlive()){
+            target = potantial_choice(enemy);
+        }
+        if (warrior->isAlive()){
+            Cowboy* cowboy = dynamic_cast<Cowboy*>(warrior);
+            if (cowboy != nullptr) {
+                if (cowboy->hasboolets()){
+                    cowboy->shoot(target);
                 }
-                Ninja* ninja = dynamic_cast<Ninja*>(warrior);
+                else{
+                    cowboy->reload();
+                }
+            }
+        }
+    }
+    for (Character* warrior: warriors){
+        if (!target->isAlive()){
+            target = potantial_choice(enemy);
+        }
+        if (warrior->isAlive()){
+            Ninja* ninja = dynamic_cast<Ninja*>(warrior);
                 if (ninja != nullptr) {
                     if (ninja->getLocation().distance(target->getLocation()) <= 1){
                         ninja->slash(target);
@@ -91,10 +104,6 @@ void Team::attack(Team* enemy){
                         ninja->move(target);
                     }
                 }
-            }
-        }
-        else{
-            target = potantial_choice(enemy);
         }
     }
 }
@@ -125,16 +134,4 @@ int Team::stillAlive() const {
 
 string Team::print(){
     return "";
-}
-
-
-
-// Constructor for Team2
-Team2::Team2(Character* captain) : Team(captain){}
-
-void Team2::attack(Team* enemy) {}
-string Team2::print() {return"";}
-
-int Team2::stillAlive() const {
-    return 1;
 }

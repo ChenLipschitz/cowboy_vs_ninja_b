@@ -13,19 +13,21 @@ namespace ariel {
         Character(string name, Point location, int hit_points);
         virtual ~Character() = default;
         bool isAlive() const;
-        double distance(Character &other);
+        double distance(const Character* other) const;
         void hit(int);
         virtual string print() const = 0;
         string getName() const;
         Point getLocation() const;
         int getHit() const;
         void setHit(int);
+        bool isATeamMember() const;
+        void setAsATeamMember();
 
         private:
         string name;
         Point location;
         int hit_points;      
-        
+        bool aTeamMember;
     };
 
     //-------------------------- Ninja --------------------------//

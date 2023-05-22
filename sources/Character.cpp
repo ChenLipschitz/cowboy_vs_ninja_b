@@ -12,6 +12,7 @@ Character::Character(string name_, Point location_, int hit_points_){
     this->name = name_;
     this->location = location_;
     this->hit_points = hit_points_;
+    this->aTeamMember = false;
 }
 
 
@@ -32,6 +33,14 @@ Point Character::getLocation() const{
     return this->location;
 }
 
+bool Character::isATeamMember() const{
+    return aTeamMember;
+}
+
+void Character::setAsATeamMember(){
+    this->aTeamMember = !isATeamMember();
+}
+
 
 //-------------------------- class methods --------------------------//
 
@@ -43,6 +52,6 @@ void Character::hit(int num){
     hit_points = hit_points - num;
 }
 
-double Character::distance(Character &other){
-    return this->location.distance(other.getLocation());
+double Character::distance(const Character* other) const{
+    return getLocation().distance(other->getLocation());
 }
