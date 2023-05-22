@@ -1,4 +1,5 @@
 #include "Character.hpp"
+#include "Cowboy.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cmath>

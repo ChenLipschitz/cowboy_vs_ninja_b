@@ -1,4 +1,8 @@
 #include "Character.hpp"
+#include "Cowboy.hpp"
+#include "OldNinja.hpp"
+#include "TrainedNinja.hpp"
+#include "YoungNinja.hpp"
 #include "Team.hpp"
 #include <iostream>
 #include <stdexcept>
@@ -99,7 +103,7 @@ Character* Team::potantial_choice(Team* team){
     Character* the_chosen = team->getCaptian();
         double closest_distance = std::numeric_limits<double>::max();
         for (Character* warrior: team->getWarriors()){
-            double curr_distance = warrior->getLocation().distance(team->getCaptian()->getLocation());
+            double curr_distance = warrior->getLocation().distance(captain->getLocation());
             if(curr_distance < closest_distance && warrior->isAlive()){
                 closest_distance = curr_distance;
                 the_chosen = warrior;

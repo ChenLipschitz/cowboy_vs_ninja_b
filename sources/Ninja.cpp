@@ -1,4 +1,7 @@
 #include "Character.hpp"
+#include "YoungNinja.hpp"
+#include "TrainedNinja.hpp"
+#include "OldNinja.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cmath>

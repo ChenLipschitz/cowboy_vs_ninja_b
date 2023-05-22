@@ -28,22 +28,6 @@ namespace ariel {
         
     };
 
-    //-------------------------- Cowboy --------------------------//
-    class Cowboy : public Character{
-
-        public:
-        Cowboy(string name, Point location);
-        ~Cowboy() override = default;
-        void shoot(Character* enemy);
-        bool hasboolets() const;
-        void reload();
-        string print() const override;
-
-        private:
-        int num_of_bullets;
-
-    };
-
     //-------------------------- Ninja --------------------------//
     class Ninja : public Character{
 
@@ -62,19 +46,4 @@ namespace ariel {
         Ninja(string name, Point location);
     };
 
-    //-------------------------- Different types of Ninjas --------------------------//
-    class OldNinja : public Ninja{
-        public:
-        OldNinja(string name, Point location);
-    };
-
-    class TrainedNinja : public Ninja{
-        public:
-        TrainedNinja(string name, Point location);
-    };
-
-    class YoungNinja : public Ninja{
-        public:
-        YoungNinja(string name, Point location);
-    };
 }
