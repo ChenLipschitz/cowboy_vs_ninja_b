@@ -21,6 +21,8 @@ namespace ariel{
         virtual string print();
         Character* getCaptian() const;
         void setCapitain(Character* new_captain);
+        const std::vector<Character*>& getWarriors() const;
+        Character* potantial_choice(Team* team);
 
         private:
         Character* captain;
