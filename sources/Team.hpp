@@ -19,10 +19,12 @@ namespace ariel{
         virtual void attack(Team* enemy);
         int stillAlive() const;
         virtual string print();
+        Character* getCaptian() const;
+        void setCapitain(Character* new_captain);
 
         private:
         Character* captain;
-        vector<Character*> players; 
+        vector<Character*> warriors; 
         int size;
     };
 
