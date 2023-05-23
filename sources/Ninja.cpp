@@ -2,6 +2,7 @@
 #include "YoungNinja.hpp"
 #include "TrainedNinja.hpp"
 #include "OldNinja.hpp"
+#include "Point.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
@@ -22,6 +23,7 @@ void Ninja::setSpeed(int speed_){
 }
 
 
+
 //--- class methods ---//
 void Ninja::move(Character* enemy) {
     if (enemy == nullptr){
@@ -33,7 +35,8 @@ void Ninja::move(Character* enemy) {
     if (enemy == this){
         return; //don't move because u can't move towards yourself
     }
-    this->getLocation().moveTowards(this->getLocation(), enemy->getLocation(), this->speed);
+    Point newLocation = Point::moveTowards(getLocation(), enemy->getLocation(), this->speed);
+    setLocation(newLocation);
 }
 
 void Ninja::slash(Character* enemy) {
@@ -65,6 +68,25 @@ string Ninja::print() const{
     cout<<str<<endl;
     this->getLocation().print();
     return str;
+}
+
+void Ninja::NinjaAttack(Character* target){
+    if (target == nullptr) {
+        throw std::invalid_argument("Error - invalid target");
+    }
+    if (!target->isAlive()) {
+        throw std::runtime_error("Error - your job is done, the target is already dead");
+    }
+    if (!isAlive()) {
+        throw std::runtime_error("Error - looks like you are dead");
+    } else {
+        if (distance(target) <= 1){
+            slash(target);
+        }
+        else{
+            move(target);
+        }
+    }
 }
 
 

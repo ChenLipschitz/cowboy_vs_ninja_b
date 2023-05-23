@@ -53,12 +53,15 @@ const vector<Character*>& Team::getWarriors() const {
 //-------------------------- class methods --------------------------//
 void Team::add(Character* warrior){
     if (warriors.size() == 10 ){
-        throw std::runtime_error("Error- cannot add another warrior, the team reached maximum capacity");
+        throw std::runtime_error("Error- cannot add another warrior, the team reached its maximum capacity");
+    }
+    if (warrior == nullptr){
+        throw std::invalid_argument("Error- got null warrior");
     }
     if (warrior->isATeamMember()){
         throw std::runtime_error("Error- this warrior is already a team member");
     }
-    if (warrior != nullptr && warrior->isAlive()){
+    if (warrior->isAlive()){
         warriors.push_back(warrior);
         warrior->setAsATeamMember();
     }
@@ -71,7 +74,7 @@ void Team::attack(Team* enemy){
     if (enemy->stillAlive() == 0){
         throw std::runtime_error("Error- all the enemy warriors are dead");
     }
-    if (this->stillAlive() == 0){
+    if (stillAlive() == 0){
         return; //cannot attack, the entire team died
     }
     if (this == enemy){
@@ -82,48 +85,55 @@ void Team::attack(Team* enemy){
     if (!captain->isAlive()){
         this->setCapitain(potantial_choice(this));
     }
+    if (captain == nullptr){
+            throw std::runtime_error("Error- there is no captian");
+    }
 
     Character* target = potantial_choice(enemy);
+    
     for (Character* warrior: warriors){
-        if (!target->isAlive()){
-            target = potantial_choice(enemy);
+        if (warrior == nullptr || !warrior->isAlive()){
+            continue;
         }
-        if (warrior->isAlive()){
-            Cowboy* cowboy = dynamic_cast<Cowboy*>(warrior);
-            if (cowboy != nullptr) {
-                if (cowboy->hasboolets()){
-                    cowboy->shoot(target);
-                }
-                else{
-                    cowboy->reload();
-                }
+         if(auto *cowboy = dynamic_cast<Cowboy *>(warrior)){
+            if(!(target->isAlive())){
+                target = potantial_choice(enemy);
             }
+            if(target == nullptr){
+                break;
+            }
+            cowboy->CowboyAttack(target);
         }
     }
+
     for (Character* warrior: warriors){
-        if (!target->isAlive()){
-            target = potantial_choice(enemy);
-        }
-        if (warrior->isAlive()){
-            Ninja* ninja = dynamic_cast<Ninja*>(warrior);
-                if (ninja != nullptr) {
-                    if (ninja->getLocation().distance(target->getLocation()) <= 1){
-                        ninja->slash(target);
-                    }
-                    else{
-                        ninja->move(target);
-                    }
-                }
+        if(target == nullptr)
+            break;
+        if(warrior == nullptr)
+            continue;
+        if(!warrior->isAlive())
+            continue;
+        if(auto *ninja = dynamic_cast<Ninja *>(warrior)){
+            if(!target->isAlive()){
+                target = potantial_choice(enemy);
+            }
+            if(target == nullptr)
+                break;
+            ninja->NinjaAttack(target);
         }
     }
+    
 }
 
-Character* Team::potantial_choice(Team* team){
-    Character* the_chosen = team->getCaptian();
+Character* Team::potantial_choice(Team* team) const{
+    Character* the_chosen = nullptr;
         double closest_distance = std::numeric_limits<double>::max();
         for (Character* warrior: team->getWarriors()){
-            double curr_distance = warrior->getLocation().distance(captain->getLocation());
-            if(curr_distance < closest_distance && warrior->isAlive()){
+            if (warrior == nullptr || !warrior->isAlive()){
+                continue;
+            }
+            double curr_distance = warrior->distance(captain);
+            if(curr_distance < closest_distance){
                 closest_distance = curr_distance;
                 the_chosen = warrior;
             }
@@ -133,8 +143,8 @@ Character* Team::potantial_choice(Team* team){
 
 int Team::stillAlive() const {
     int aliveWarriors = 0;
-    for (std::vector<Character*>::size_type i = 0; i < warriors.size(); i++) {
-        if (warriors[i] != nullptr && warriors[i]->isAlive()) {
+    for (Character* warrior : warriors) {
+        if (warrior != nullptr && warrior->isAlive()) {
             aliveWarriors++;
         }
     }

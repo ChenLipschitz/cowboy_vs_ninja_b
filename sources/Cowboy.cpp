@@ -29,15 +29,37 @@ void Cowboy::shoot(Character* enemy) {
         num_of_bullets--;
     }
 }
+
+void Cowboy::CowboyAttack(Character* target) {
+    if (target == nullptr) {
+        throw std::invalid_argument("Error - invalid target");
+    }
+    if (!target->isAlive()) {
+        throw std::runtime_error("Error - your job is done, the target is already dead");
+    }
+    if (!isAlive()) {
+        throw std::runtime_error("Error - looks like you are dead");
+    } else {
+        if (num_of_bullets == 0) {
+            reload();
+        } else {
+            shoot(target);
+        }
+    }
+}
+
+
 bool Cowboy::hasboolets() const{
     return this->num_of_bullets > 0;
 }
+
 void Cowboy::reload() {
     if (!isAlive()){
         throw std::runtime_error("Error- the cowboy is dead therefore cannot reload");
     }
-    this->num_of_bullets+=6;
+    this->num_of_bullets = 6;
 }
+
 string Cowboy::print() const{
     string str = "C Name: ";
     if (isAlive()){

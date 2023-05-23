@@ -50,7 +50,11 @@ bool Character::isACaptian() const{
 }
 
 void Character::setAsACaptian(){
-    this->aCapatian = !isACaptian();
+    this->aCapatian = true;
+}
+
+void Character::setLocation(Point location_){
+    this->location = location_;
 }
 
 

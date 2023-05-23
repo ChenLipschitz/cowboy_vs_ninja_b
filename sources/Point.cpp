@@ -37,10 +37,7 @@ void Point::print(){
 }
 
 double Point::distance(const Point &other){
-    double dist = sqrt(pow((other.getX() - this->x), 2) + pow((other.getY() - this->y), 2));
-    if (dist < 0){
-        throw std::runtime_error("ERROR- Distance cannot be negative");
-    }
+    double dist = sqrt(pow(x - other.getX(), 2) + pow(y - other.getY(), 2));
     return dist;
 }
 
@@ -53,11 +50,15 @@ Point Point::moveTowards(Point source, Point destination, double dist){
     if (distance_ <= dist){
         return destination;
     }
-    
-    // was taken from ChatGPT
-    double ratio = dist / distance_;
-    double newX = source.getX() + ratio * (destination.getX() - source.getX());
-    double newY = source.getY() + ratio * (destination.getY() - source.getY());
+    double d = source.distance(destination);
+    return Point{
+        source.getX() + (dist * (destination.getX() - source.getX()) / d),
+        source.getY() + (dist * (destination.getY() - source.getY()) / d),
+    };    
+    // // was taken from ChatGPT
+    // double ratio = dist / distance_;
+    // double newX = source.getX() + ratio * (destination.getX() - source.getX());
+    // double newY = source.getY() + ratio * (destination.getY() - source.getY());
 
-    return Point{newX, newY};
+    // return Point(newX, newY);
 }

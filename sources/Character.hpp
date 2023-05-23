@@ -24,6 +24,7 @@ namespace ariel {
         void setAsATeamMember();
         bool isACaptian() const;
         void setAsACaptian();
+        void setLocation(Point location_);
 
         private:
         string name;
@@ -43,6 +44,7 @@ namespace ariel {
         void setSpeed(int speed_);
         int getSpeed() const;
         string print() const override;
+        void NinjaAttack(Character* target);
 
         private:
         int speed;

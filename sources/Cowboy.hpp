@@ -14,6 +14,7 @@ namespace ariel{
         bool hasboolets() const;
         void reload();
         string print() const override;
+        void CowboyAttack(Character* target);
 
         private:
         int num_of_bullets;

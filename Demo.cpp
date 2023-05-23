@@ -18,6 +18,14 @@ using namespace ariel;
 
 
 int main() {
+   Point aa(4,0),bb(0,3), cc(0,5);
+   cout<<"here"<<endl;
+   double dis = aa.distance(bb);
+   cout<<"aa.distance(bb) = "<<dis<<endl;
+   Point z(0,0);
+   Point g{Point::moveTowards(z,cc,5)};
+   g.print();
+
     Point a(32.3,44),b(1.3,3.5);
     assert(a.distance(b) == b.distance(a));
     Cowboy *tom = new Cowboy("Tom", a);
