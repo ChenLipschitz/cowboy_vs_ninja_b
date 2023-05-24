@@ -40,7 +40,6 @@ namespace ariel{
             SmartTeam(Character* captain);
             SmartTeam(const SmartTeam& other);  //copy constructor
             ~SmartTeam();
-            SmartTeam& operator=(const SmartTeam& other);
             
             void attack(Team* team) override;
             string print() override; 
