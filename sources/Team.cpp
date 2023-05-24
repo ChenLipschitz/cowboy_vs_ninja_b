@@ -92,11 +92,12 @@ void Team::attack(Team* enemy){
 
     Character* target = potantial_choice(enemy);
     
+    sort_team(C_TO_N);
     for (Character* warrior: warriors){
         if (warrior == nullptr || !warrior->isAlive()){
             continue;
         }
-         if(auto *cowboy = dynamic_cast<Cowboy *>(warrior)){
+        if(auto *cowboy = dynamic_cast<Cowboy *>(warrior)){
             if(!(target->isAlive())){
                 target = potantial_choice(enemy);
             }
@@ -104,12 +105,6 @@ void Team::attack(Team* enemy){
                 return;
             }
             cowboy->CowboyAttack(target);
-        }
-    }
-
-    for (Character* warrior: warriors){
-        if(warrior == nullptr || !warrior->isAlive()){
-            continue;
         }
         if(auto *ninja = dynamic_cast<Ninja *>(warrior)){
             if(!target->isAlive()){
@@ -120,7 +115,7 @@ void Team::attack(Team* enemy){
             }
             ninja->NinjaAttack(target);
         }
-    }    
+    } 
 }
 
 Character* Team::potantial_choice(Team* team) const{
@@ -149,21 +144,23 @@ int Team::stillAlive() const {
     return aliveWarriors;
 }
 
+void Team::sort_team(SortOrder sortOrder){
+    Character::sortCharacters(warriors, sortOrder);
+}
+
 
 string Team::print(){
+    sort_team(C_TO_N);
     string str = "Team Captian: " + captain->getName()+"\n"+"Team warriors:";
     cout<<str<<endl;
 	for (Character* warrior : warriors)
 	{
-		if (dynamic_cast<Cowboy *>(warrior) != nullptr)
-			str+="\n"+warrior->print();
-	}
-
-	for (Character* warrior : warriors)
-	{
-		if (dynamic_cast<Ninja *>(warrior) != nullptr)
-			str+="\n"+warrior->print();
-
+		if (dynamic_cast<Cowboy *>(warrior) != nullptr){
+            str+="\n"+warrior->print();
+        }
+        if (dynamic_cast<Ninja *>(warrior) != nullptr){
+            str+="\n"+warrior->print();
+        } 
 	}
     return str;
 }

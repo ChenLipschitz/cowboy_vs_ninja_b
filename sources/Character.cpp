@@ -1,7 +1,10 @@
 #include "Character.hpp"
+#include "Cowboy.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <vector>
+#include <algorithm>
 using namespace ariel;
 using namespace std;
 
@@ -75,6 +78,39 @@ double Character::distance(const Character* other) const{
     return getLocation().distance(other->getLocation());
 }
 
-// void attackTarget(Character* warrior){
 
-// }
+bool Character::compare_to_hit_ascending(const Character* chara1, const Character* chara2) {
+    return chara1->getHit() < chara2->getHit();
+}
+
+bool Character::compare_to_hit_descending(const Character* chara1, const Character* chara2){
+    return chara1->getHit() > chara2->getHit();
+}
+
+bool Character::compare_to_C_to_N(const Character* chara1, const Character* chara2){
+    const Cowboy* cowboy1 = dynamic_cast<const Cowboy*>(chara1);
+    const Cowboy* cowboy2 = dynamic_cast<const Cowboy*>(chara2);
+
+    if (cowboy1 && !cowboy2) {
+        // chara1 is a Cowboy and chara2 is not
+        return true;
+    } else if (!cowboy1 && cowboy2) {
+        // chara2 is a Cowboy and chara1 is not
+        return false;
+    } else {
+        // Either both characters are Cowboys or neither of them is
+        return false;
+    }
+}
+
+void Character::sortCharacters(std::vector<Character*>& characters, SortOrder sortOrder) {
+    if (sortOrder == HIT_POINTS_ASCENDING) {
+        sort(characters.begin(), characters.end(), compare_to_hit_ascending);
+    } else if (sortOrder == HIT_POINTS_DESCENDING) {
+        sort(characters.begin(), characters.end(), compare_to_hit_descending);
+    } else if (sortOrder == C_TO_N) {
+        sort(characters.begin(), characters.end(), compare_to_C_to_N);
+    } else {
+        throw std::invalid_argument("Invalid sortOrder value. Expected 0 (hit points ascending), 1 (hit points descending), or 2 (speed points ascending).");
+    }
+}

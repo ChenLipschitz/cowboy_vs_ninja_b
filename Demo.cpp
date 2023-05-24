@@ -28,42 +28,49 @@ int main() {
     assert(a.distance(b) == b.distance(a));
     Cowboy *tom = new Cowboy("Tom", a);
     OldNinja *sushi = new OldNinja("sushi", b);
-    cout<<""<<endl;
-    cout << sushi->print() <<endl;
+   //  cout<<""<<endl;
+   //  cout << sushi->print() <<endl;
 
 
     tom->shoot(sushi);
-    cout<<""<<endl;
-    cout << sushi->print() <<endl;
-    cout<<""<<endl;
-    cout << tom->print() <<endl;
+   //  cout<<""<<endl;
+   //  cout << sushi->print() <<endl;
+   //  cout<<""<<endl;
+   //  cout << tom->print() <<endl;
 
-    cout<<""<<endl;
+   //  cout<<""<<endl;
 
     sushi->move(tom);
     sushi->slash(tom);
-   if (sushi->distance(tom) <= 1){
-      cout<<"can slash"<<endl;
-      cout<<sushi->getLocation().print()<<endl;
-   }
-   else{
-      cout<<"cannot slash"<<endl;
-      cout<<sushi->getLocation().print()<<endl;
-   }
-    cout<<"after slash"<<endl;
-    cout << tom->print() <<endl;
-    cout<<""<<endl;
+   // if (sushi->distance(tom) <= 1){
+      // cout<<"can slash"<<endl;
+      // cout<<sushi->getLocation().print()<<endl;
+   // }
+   // else{
+      // cout<<"cannot slash"<<endl;
+      // cout<<sushi->getLocation().print()<<endl;
+   // }
+   //  cout<<"after slash"<<endl;
+   //  cout << tom->print() <<endl;
+   //  cout<<""<<endl;
    
 
     Team team_A(tom); 
     team_A.add(new YoungNinja("Yogi", Point(64,57)));
 
-   //  team_A.print();
-
     // Team b(tom); should throw tom is already in team a
 
-     Team team_B(sushi);
-     team_B.add(new TrainedNinja("Hikari", Point(12,81)));
+   Team2 team_B(sushi);
+   team_B.add(new Cowboy("Hikari", Point(12,81)));
+   team_B.add(new Cowboy("Bob", Point(1.2,8.1)));
+
+
+   cout<<"hit_ascending: "<<endl;
+   team_B.sort_team(C_TO_N);
+   team_B.print();
+   team_B.sort_team(HIT_POINTS_DESCENDING);
+   cout<<"hit_descending: "<<endl;
+   team_B.print();
 
 
      while(team_A.stillAlive() > 0 && team_B.stillAlive() > 0){
