@@ -67,8 +67,7 @@ void Team::add(Character* warrior){
     }
 }
 
-void Team::attack(Team* enemy){
-
+void Team::attack_checks(Team* enemy){
     if (enemy == nullptr){
         throw std::invalid_argument("Error- cannot attack bull team");
     }
@@ -89,7 +88,10 @@ void Team::attack(Team* enemy){
     if (captain == nullptr){
         return;
     }
+}
 
+void Team::attack(Team* enemy){
+    attack_checks(enemy);
     Character* target = potantial_choice(enemy);
     
     sort_team(C_TO_N);
@@ -147,7 +149,6 @@ int Team::stillAlive() const {
 void Team::sort_team(SortOrder sortOrder){
     Character::sortCharacters(warriors, sortOrder);
 }
-
 
 string Team::print(){
     sort_team(C_TO_N);

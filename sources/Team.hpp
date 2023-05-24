@@ -21,6 +21,7 @@ namespace ariel{
 
         virtual void add(Character* player);
         virtual void attack(Team* enemy);
+        void attack_checks(Team* enemy);
         int stillAlive() const;
         virtual string print();
         Character* getCaptian() const;
