@@ -14,11 +14,11 @@ using namespace std;
 
 //-------------------------- constructors & initializations --------------------------//
 Team::Team(Character* captain_){
+    add(captain_);
     setCapitain(captain_);
-    add(captain);
 }
 
-Team::Team(const Team& other) : captain(other.captain), warriors(), size(0) {    // Copy constructor
+Team::Team(const Team& other) : captain(other.captain), warriors(){    // Copy constructor
     for (const auto& player : other.warriors) {
         add(player);
     }
@@ -42,8 +42,8 @@ void Team::setCapitain(Character* new_captain){
     if (new_captain->isACaptian() || !new_captain->isAlive()){
         throw std::runtime_error("Error- choose another captian");
     }
+    new_captain->setAsACaptian();
     captain = new_captain;
-    captain->setAsACaptian();
 }
 
 const vector<Character*>& Team::getWarriors() const {
@@ -68,6 +68,7 @@ void Team::add(Character* warrior){
 }
 
 void Team::attack(Team* enemy){
+
     if (enemy == nullptr){
         throw std::invalid_argument("Error- cannot attack bull team");
     }
@@ -86,7 +87,7 @@ void Team::attack(Team* enemy){
         this->setCapitain(potantial_choice(this));
     }
     if (captain == nullptr){
-            throw std::runtime_error("Error- there is no captian");
+        return;
     }
 
     Character* target = potantial_choice(enemy);
@@ -100,29 +101,26 @@ void Team::attack(Team* enemy){
                 target = potantial_choice(enemy);
             }
             if(target == nullptr){
-                break;
+                return;
             }
             cowboy->CowboyAttack(target);
         }
     }
 
     for (Character* warrior: warriors){
-        if(target == nullptr)
-            break;
-        if(warrior == nullptr)
+        if(warrior == nullptr || !warrior->isAlive()){
             continue;
-        if(!warrior->isAlive())
-            continue;
+        }
         if(auto *ninja = dynamic_cast<Ninja *>(warrior)){
             if(!target->isAlive()){
                 target = potantial_choice(enemy);
             }
-            if(target == nullptr)
-                break;
+            if(target == nullptr){
+                return;
+            }
             ninja->NinjaAttack(target);
         }
-    }
-    
+    }    
 }
 
 Character* Team::potantial_choice(Team* team) const{
@@ -132,7 +130,7 @@ Character* Team::potantial_choice(Team* team) const{
             if (warrior == nullptr || !warrior->isAlive()){
                 continue;
             }
-            double curr_distance = warrior->distance(captain);
+            double curr_distance = warrior->distance(this->captain);
             if(curr_distance < closest_distance){
                 closest_distance = curr_distance;
                 the_chosen = warrior;
@@ -153,5 +151,18 @@ int Team::stillAlive() const {
 
 
 string Team::print(){
+    cout << "Team Captian: " << captain->getName() << endl;
+
+	for (Character* warrior : warriors)
+	{
+		if (dynamic_cast<Cowboy *>(warrior) != nullptr)
+			cout << warrior->print() << endl;
+	}
+
+	for (Character* warrior : warriors)
+	{
+		if (dynamic_cast<Ninja *>(warrior) != nullptr)
+			cout << warrior->print() << endl;
+	}
     return "";
 }

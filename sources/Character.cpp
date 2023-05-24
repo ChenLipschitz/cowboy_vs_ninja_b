@@ -42,7 +42,7 @@ bool Character::isATeamMember() const{
 }
 
 void Character::setAsATeamMember(){
-    this->aTeamMember = !isATeamMember();
+    this->aTeamMember = true;
 }
 
 bool Character::isACaptian() const{

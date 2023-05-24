@@ -27,11 +27,11 @@ namespace ariel{
         void setCapitain(Character* new_captain);
         const std::vector<Character*>& getWarriors() const;
         Character* potantial_choice(Team* team) const;
+        void coronate_captian();
 
         private:
         Character* captain;
         vector<Character*> warriors; 
-        int size;
     };
 
     class SmartTeam : public Team{

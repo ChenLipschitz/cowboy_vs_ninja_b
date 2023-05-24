@@ -68,7 +68,7 @@ string Cowboy::print() const{
     else{
         str += "(" + this->getName() + ")";
     }
-    cout<<str<<endl;
-    this->getLocation().print();
+    str += "\n"+getLocation().print();
+    // cout<<str<<endl;
     return str;
 }
