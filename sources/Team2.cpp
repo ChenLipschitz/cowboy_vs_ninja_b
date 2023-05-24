@@ -41,6 +41,9 @@ void Team2::attack(Team* enemy) {
     for (Character* warrior: getWarriors()){
         if (!target->isAlive()){
             target = potantial_choice(enemy);
+            if (target == nullptr){
+                return;
+            }
         }
         if (warrior->isAlive()){
             Cowboy* cowboy = dynamic_cast<Cowboy*>(warrior);
@@ -66,4 +69,16 @@ void Team2::attack(Team* enemy) {
 }
 
 
-string Team2::print() {return"";}
+string Team2::print() {
+    string str = "Team Captian: " + this->getCaptian()->getName() +"\n"+"Team warriors:";
+    cout<<str<<endl;
+	for (Character* warrior : this->getWarriors()){
+		if (dynamic_cast<Ninja *>(warrior) != nullptr){
+			str+="\n"+warrior->print();
+        }
+        if (dynamic_cast<Cowboy *>(warrior) != nullptr){
+			str+="\n"+warrior->print();
+        }
+	}
+    return str;
+}

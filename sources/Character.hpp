@@ -25,6 +25,7 @@ namespace ariel {
         bool isACaptian() const;
         void setAsACaptian();
         void setLocation(Point location_);
+        // virtual void attackTarget(Character* warrior);
 
         private:
         string name;

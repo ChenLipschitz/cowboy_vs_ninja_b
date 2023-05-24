@@ -74,3 +74,7 @@ void Character::hit(int num){
 double Character::distance(const Character* other) const{
     return getLocation().distance(other->getLocation());
 }
+
+// void attackTarget(Character* warrior){
+
+// }

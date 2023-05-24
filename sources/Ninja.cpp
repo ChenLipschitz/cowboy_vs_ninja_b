@@ -66,7 +66,7 @@ string Ninja::print() const{
         str += "(" + this->getName() + ")";
     }
     str += "\n" + getLocation().print() +"\n";
-    // cout<<str<<endl;
+    cout<<str<<endl;
     return str;
 }
 

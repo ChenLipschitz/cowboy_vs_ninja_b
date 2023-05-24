@@ -151,18 +151,19 @@ int Team::stillAlive() const {
 
 
 string Team::print(){
-    cout << "Team Captian: " << captain->getName() << endl;
-
+    string str = "Team Captian: " + captain->getName()+"\n"+"Team warriors:";
+    cout<<str<<endl;
 	for (Character* warrior : warriors)
 	{
 		if (dynamic_cast<Cowboy *>(warrior) != nullptr)
-			cout << warrior->print() << endl;
+			str+="\n"+warrior->print();
 	}
 
 	for (Character* warrior : warriors)
 	{
 		if (dynamic_cast<Ninja *>(warrior) != nullptr)
-			cout << warrior->print() << endl;
+			str+="\n"+warrior->print();
+
 	}
-    return "";
+    return str;
 }

@@ -69,6 +69,6 @@ string Cowboy::print() const{
         str += "(" + this->getName() + ")";
     }
     str += "\n"+getLocation().print();
-    // cout<<str<<endl;
+    cout<<str<<endl;
     return str;
 }
